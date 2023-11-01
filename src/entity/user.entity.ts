@@ -8,6 +8,11 @@ import {
   VersionColumn,
 } from 'typeorm';
 
+export enum Role {
+  USER = 'user',
+  ADMIN = 'admin',
+}
+
 @Entity()
 export class UserModel {
   @PrimaryGeneratedColumn() // 자동으로 ID 를 생성한다. -> 순서대로 올라감 (1->2->3)
@@ -23,9 +28,16 @@ export class UserModel {
     update: true, // true 면 처음 저장할 때만 값 지정 가능, 이후에는 값 변경 불가능,
     select: false, // find() 를 실행할 때 기본으로 값을 불러올지
     default: 'default value', // 기본값으로 아무 값을 입력하지 않았을 때 저장될 값
-    unique: true, // 칼럼에서 유니크한 값으로 존재해야 하는지
+    unique: false, // 칼럼에서 유니크한 값으로 존재해야 하는지
   })
   title: string;
+
+  @Column({
+    type: 'enum',
+    enum: Role, // enum 으로 사용될 타입
+    default: Role.USER, // 기본값
+  })
+  role: Role;
 
   @CreateDateColumn() // 데이터가 생성되는 날짜와 시간이 자동으로 찍힌다.
   createdAt: Date;
