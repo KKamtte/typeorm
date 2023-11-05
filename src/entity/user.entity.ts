@@ -3,12 +3,14 @@ import {
   CreateDateColumn,
   Entity,
   Generated,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   VersionColumn,
 } from 'typeorm';
 import { ProfileModel } from './profile.entity';
+import { PostModel } from './post.entity';
 
 export enum Role {
   USER = 'user',
@@ -61,4 +63,8 @@ export class UserModel {
 
   @OneToOne(() => ProfileModel, (profile) => profile.user)
   profile: ProfileModel;
+
+  // 유저 입장에서 하나의 사용자가 many 포스트를 관리하게 됨
+  @OneToMany(() => PostModel, (post) => post.author)
+  posts: PostModel[];
 }

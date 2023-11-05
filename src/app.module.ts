@@ -12,10 +12,11 @@ import {
   SingleBaseModel,
 } from './entity/inheritance.entity';
 import { ProfileModel } from './entity/profile.entity';
+import { PostModel } from './entity/post.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([UserModel, ProfileModel]),
+    TypeOrmModule.forFeature([UserModel, ProfileModel, PostModel]),
     TypeOrmModule.forRoot({
       type: 'postgres',
       port: 5433,
@@ -32,6 +33,7 @@ import { ProfileModel } from './entity/profile.entity';
         AirplaneModel,
         SingleBaseModel,
         ProfileModel,
+        PostModel,
       ],
       synchronize: true,
     }),
