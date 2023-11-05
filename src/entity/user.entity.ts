@@ -3,10 +3,12 @@ import {
   CreateDateColumn,
   Entity,
   Generated,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   VersionColumn,
 } from 'typeorm';
+import { ProfileModel } from './profile.entity';
 
 export enum Role {
   USER = 'user',
@@ -20,17 +22,20 @@ export class UserModel {
   // @PrimaryColumn() // 모든 테이블에서 기본적으로 존재해야 한다.
   id: number;
 
-  @Column({
-    type: 'varchar', // 데이터베이스에서 인지하는 칼럼 타입 (자동 유추됨)
-    name: 'title', // 데이터베이스 칼럼 이름 (자동 유추됨)
-    length: 300, // 값의 길이, 입력할 수 있는 글자 길이가 300
-    nullable: true, // null 값이 가능한지
-    update: true, // true 면 처음 저장할 때만 값 지정 가능, 이후에는 값 변경 불가능,
-    select: false, // find() 를 실행할 때 기본으로 값을 불러올지
-    default: 'default value', // 기본값으로 아무 값을 입력하지 않았을 때 저장될 값
-    unique: false, // 칼럼에서 유니크한 값으로 존재해야 하는지
-  })
-  title: string;
+  @Column()
+  email: string;
+
+  // @Column({
+  //   type: 'varchar', // 데이터베이스에서 인지하는 칼럼 타입 (자동 유추됨)
+  //   name: 'title', // 데이터베이스 칼럼 이름 (자동 유추됨)
+  //   length: 300, // 값의 길이, 입력할 수 있는 글자 길이가 300
+  //   nullable: true, // null 값이 가능한지
+  //   update: true, // true 면 처음 저장할 때만 값 지정 가능, 이후에는 값 변경 불가능,
+  //   select: false, // find() 를 실행할 때 기본으로 값을 불러올지
+  //   default: 'default value', // 기본값으로 아무 값을 입력하지 않았을 때 저장될 값
+  //   unique: false, // 칼럼에서 유니크한 값으로 존재해야 하는지
+  // })
+  // title: string;
 
   @Column({
     type: 'enum',
@@ -53,4 +58,7 @@ export class UserModel {
   @Column()
   @Generated('uuid')
   additionalId: string;
+
+  @OneToOne(() => ProfileModel, (profile) => profile.user)
+  profile: ProfileModel;
 }
