@@ -32,6 +32,81 @@ export class AppController {
     private readonly tagRepository: Repository<TagModel>,
   ) {}
 
+  @Post('sample')
+  async sample() {
+    // 모델에 해당되는 객체 생성 - 저장은 안함
+    // const user1 = this.userRepository.create({
+    //   email: 'test@arsenal.com',
+    // });
+
+    // 저장
+    // const user2 = await this.userRepository.save({
+    //   email: 'test@arsenal.com',
+    // });
+
+    // preload
+    // 입력된 값을 기반으로 데이터 베이스에 있는 데이터를 불러오고
+    // 추가 입력된 값으로 데이터베이스에서 가져온 값들을 대체함
+    // 저장하지는 않음
+    // const user3 = await this.userRepository.preload({
+    //   id: 101,
+    //   email: 'saka@arsenal.com',
+    // });
+
+    // 삭제하기
+    // await this.userRepository.delete(101);
+
+    // 조건에 해당하는 모든 row 에 column 데이터를 조건에 맞게 증가
+    // await this.userRepository.increment(
+    //   {
+    //     id: 1,
+    //   },
+    //   'count',
+    //   2,
+    // );
+
+    // 조건에 해당하는 모든 row 에 column 데이터를 조건에 맞게 감소
+    // await this.userRepository.decrement(
+    //   {
+    //     id: 1,
+    //   },
+    //   'count',
+    //   1,
+    // );
+
+    // 갯수 카운팅하기
+    // const count = await this.userRepository.count({
+    //   where: {
+    //     email: ILike('%0%'),
+    //   },
+    // });
+
+    // sum
+    // const sum = await this.userRepository.sum('count', {
+    //   email: ILike('%0%'),
+    // });
+
+    // 평균
+    // const avg = await this.userRepository.average('count', {
+    //   id: LessThan(4),
+    // });
+
+    // 최소, 최대값
+    // const min = await this.userRepository.minimum('count', {
+    //   id: LessThan(4),
+    // });
+    // const max = await this.userRepository.maximum('count', {
+    //   id: LessThan(4),
+    // });
+
+    // 페이지네이션
+    const usersAndCount = await this.userRepository.findAndCount({
+      take: 3,
+    });
+
+    return JSON.stringify({ data: usersAndCount[0], total: usersAndCount[1] });
+  }
+
   @Post('users')
   async postUsers() {
     for (let i = 0; i < 100; i++) {
@@ -103,9 +178,9 @@ export class AppController {
       // 오름차순 내림차순
       // ASC -> 오름차순
       // DESC -> 내림차순
-      // order: {
-      //   id: 'DESC',
-      // },
+      order: {
+        id: 'ASC',
+      },
       // 처음 몇개를 제외할지 (정렬 이후) - OFFSET
       // skip: 0,
       // 몇 개를 가져올 지 (default 테이블 길이) - LIMIT

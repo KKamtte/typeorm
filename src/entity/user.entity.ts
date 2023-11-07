@@ -83,4 +83,9 @@ export class UserModel {
   // 유저 입장에서 하나의 사용자가 many 포스트를 관리하게 됨
   @OneToMany(() => PostModel, (post) => post.author)
   posts: PostModel[];
+
+  @Column({
+    default: 0,
+  })
+  count: number;
 }
